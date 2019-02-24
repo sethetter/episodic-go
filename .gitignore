@@ -1,3 +1,4 @@
 bin
 ops/.terraform
 ops/terraform.tfstate*
+ops/secrets.tfvars

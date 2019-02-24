@@ -25,15 +25,15 @@ EOF
 resource "aws_lambda_function" "main" {
   function_name = "episodic_main"
   runtime = "go1.x"
-  handler = "lambda"
+  handler = "main"
   role = "${aws_iam_role.lambda_role.arn}"
 
-  filename = "../bin/lambda.zip"
-  source_code_hash = "${base64sha256(file("../bin/lambda.zip"))}"
+  filename = "../bin/main.zip"
+  source_code_hash = "${base64sha256(file("../bin/main.zip"))}"
 
   environment {
     variables = {
-      foo = "bar"
+      TMDB_API_KEY = "${var.tmdb_api_key}"
     }
   }
 }
