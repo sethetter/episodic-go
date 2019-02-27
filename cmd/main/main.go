@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"github.com/aws/aws-lambda-go/lambda"
-	tmdb "github.com/ryanbradynd05/go-tmdb"
+	episodic "github.com/sethetter/episodic/pkg"
 )
 
 // MyEvent is the expected structure of the input lambda event.
@@ -15,24 +16,14 @@ type MyEvent struct {
 
 // HandleRequest handles the lambda invocation.
 func HandleRequest(ctx context.Context, name MyEvent) (string, error) {
-	config := tmdb.Config{
-		APIKey:   os.Getenv("TMDB_API_KEY"),
-		Proxies:  nil,
-		UseProxy: false,
-	}
-	tmdbAPI := tmdb.Init(config)
+	tmdb := episodic.NewTMDBClient(os.Getenv("TMDB_API_KEY"))
 
-	shameless, err := tmdbAPI.GetTvInfo(34307, nil)
+	season, err := tmdb.MostRecentSeason(34307)
 	if err != nil {
-		return "Error!", err
+		return "", err
 	}
 
-	shamelessJSON, err := tmdb.ToJSON(shameless)
-	if err != nil {
-		return "Error!", err
-	}
-
-	return shamelessJSON, nil
+	return fmt.Sprintf("%d", season), nil
 }
 
 func main() {
