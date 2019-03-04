@@ -4,3 +4,6 @@ build:
 
 deploy:
 	cd ops && terraform apply -var-file=secrets.tfvars
+
+test:
+	go test ./pkg
