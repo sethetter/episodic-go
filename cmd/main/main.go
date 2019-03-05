@@ -10,28 +10,52 @@ import (
 	episodic "github.com/sethetter/episodic/pkg"
 )
 
-var shamelessID = 34307
+var showIDs = []int{
+	34307, // Shameless
+	1399,  // Game of Thrones
+	63247, // Westworld
+}
 
-// MyEvent is the expected structure of the input lambda event.
-type MyEvent struct {
-	Name string `json:"name"`
+type response struct {
+	shows []show
+}
+
+func (r *response) render() string {
+	out := ""
+	for _, s := range r.shows {
+		out += fmt.Sprintf("%s: %d\n", s.name, s.daysAway)
+	}
+	return out
+}
+
+type show struct {
+	name     string
+	daysAway int
 }
 
 // HandleRequest handles the lambda invocation.
-func HandleRequest(ctx context.Context, name MyEvent) (string, error) {
+func HandleRequest(ctx context.Context, event interface{}) (string, error) {
 	tmdb := episodic.NewTMDBClient(os.Getenv("TMDB_API_KEY"))
 
-	show, err := tmdb.GetTV(shamelessID)
-	if err != nil {
-		return "", err
+	resp := &response{shows: []show{}}
+
+	for _, id := range showIDs {
+		s, err := tmdb.GetTV(id)
+		if err != nil {
+			return "", err
+		}
+
+		if s.HasNextEpisode() {
+			daysTilNextEp, err := s.NextEpisode.DaysFromAir(time.Now())
+			if err != nil {
+				return "", err
+			}
+
+			resp.shows = append(resp.shows, show{s.Name, daysTilNextEp})
+		}
 	}
 
-	daysTilNextEp, err := show.NextEpisode.DaysFromAir(time.Now())
-	if err != nil {
-		return "", err
-	}
-
-	return fmt.Sprintf("Days until next Shameless episode: %d", daysTilNextEp), nil
+	return resp.render(), nil
 }
 
 func main() {
