@@ -1,7 +1,8 @@
 build: deps twilio
 
 deps:
-	go mod download
+	go get ...
+	# go mod download
 
 twilio:
 	go build -o ./bin/twilio ./cmd/twilio/main.go
