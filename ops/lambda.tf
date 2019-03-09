@@ -38,9 +38,7 @@ resource "aws_lambda_permission" "apigw_lambda" {
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.twilio.arn}"
   principal     = "apigateway.amazonaws.com"
-
-  # More: http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
-  source_arn = "${aws_api_gateway_deployment.EpisodicAPITest.execution_arn}/*/*"
+  source_arn = "${aws_api_gateway_deployment.test.execution_arn}/*/*"
 }
 
 resource "aws_cloudwatch_log_group" "lambda_logs" {
