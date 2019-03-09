@@ -1,8 +1,8 @@
 build: listshows
 
 listshows:
-	go build -o ./bin/lambda ./cmd/lambda/main.go
-	cd bin && zip lambda.zip lambda
+	go build -o ./bin/twilio ./cmd/twilio/main.go
+	# cd bin && zip twilio.zip twilio
 
 deploy:
 	cd ops && terraform apply -var-file=secrets.tfvars
