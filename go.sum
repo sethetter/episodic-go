@@ -8,6 +8,8 @@ github.com/aws/aws-lambda-go v1.8.2 h1:wC8KcAG9HyVkFjbKQ9uhp87UGZutlPn9IJPq9fYM2
 github.com/aws/aws-lambda-go v1.8.2/go.mod h1:zUsUQhAUjYzR8AuduJPCfhBuKWUaDbQiPOG+ouzmE1A=
 github.com/aws/aws-lambda-go v1.9.0 h1:r9TWtk8ozLYdMW+aelUeWny8z2mjghJCMx6/uUwOLNo=
 github.com/aws/aws-lambda-go v1.9.0/go.mod h1:zUsUQhAUjYzR8AuduJPCfhBuKWUaDbQiPOG+ouzmE1A=
+github.com/aws/aws-sdk-go v1.17.14 h1:IjqZDIQoLyZ48A93BxVrZOaIGgZPRi4nXt6WQUMJplY=
+github.com/aws/aws-sdk-go v1.17.14/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -25,6 +27,8 @@ github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5y
 github.com/golang/protobuf v1.3.0/go.mod h1:Qd/q+1AKNOZr9uGQzbzCmRO6sUih6GTPZv6a1/R87v0=
 github.com/google/shlex v0.0.0-20181106134648-c34317bd91bf h1:7+FW5aGwISbqUtkfmIpZJGRgNFg2ioYPvFaUxdqpDsg=
 github.com/google/shlex v0.0.0-20181106134648-c34317bd91bf/go.mod h1:RpwtwJQFrIEPstU94h88MWPXP2ektJZ8cZ0YntAmXiE=
+github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af h1:pmfjZENx5imkbgOkpRUYLnmbU7UEFbjtDA2hxJ1ichM=
+github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af/go.mod h1:Nht3zPeWKUH0NzdCt2Blrr5ys8VGpn0CEB0cQHVjt7k=
 github.com/josharian/impl v0.0.0-20180228163738-3d0f908298c4 h1:gmIVMdGlVf5e6Yo6+ZklxdOrvtOvyrAjJyXAbmOznyo=
 github.com/josharian/impl v0.0.0-20180228163738-3d0f908298c4/go.mod h1:t4Tr0tn92eq5ISef4cS5plFAMYAqZlAXtgUcKE6y8nw=
 github.com/jstemmer/gotags v1.4.1 h1:aWIyXsU3lTDqhsEC49MP85p2cUUWr2ptvdGNqqGA3r4=

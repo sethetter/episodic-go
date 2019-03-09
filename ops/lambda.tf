@@ -29,6 +29,7 @@ resource "aws_lambda_function" "twilio" {
   environment {
     variables = {
       TMDB_API_KEY = "${var.tmdb_api_key}"
+      DATA_BUCKET = "${aws_s3_bucket.data.bucket}"
     }
   }
 }
@@ -46,8 +47,8 @@ resource "aws_cloudwatch_log_group" "lambda_logs" {
   retention_in_days = 7
 }
 
-resource "aws_iam_policy" "lambda_logging_role" {
-  name = "lamba_logging_role"
+resource "aws_iam_policy" "lambda_logging_policy" {
+  name = "lamba_logging_policy"
   path = "/"
   policy = <<EOF
 {
@@ -68,5 +69,5 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "lambda_logs_role_attachment" {
   role = "${aws_iam_role.lambda_role.name}"
-  policy_arn = "${aws_iam_policy.lambda_logging_role.arn}"
+  policy_arn = "${aws_iam_policy.lambda_logging_policy.arn}"
 }

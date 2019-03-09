@@ -42,6 +42,16 @@ func HandleRequest(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
 
 	body := &Response{Shows: []show{}}
 
+	data, err := episodic.NewDataBucket(os.Getenv("DATA_BUCKET"), "data.json")
+	if err != nil {
+		return events.APIGatewayProxyResponse{StatusCode: 500}, err
+	}
+
+	showIDs, err := data.ShowIDs()
+	if err != nil {
+		return events.APIGatewayProxyResponse{StatusCode: 500}, err
+	}
+
 	for _, id := range showIDs {
 		s, err := tmdb.GetTV(id)
 		if err != nil {

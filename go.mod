@@ -4,6 +4,7 @@ require (
 	github.com/alecthomas/gometalinter v3.0.0+incompatible // indirect
 	github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf // indirect
 	github.com/aws/aws-lambda-go v1.9.0
+	github.com/aws/aws-sdk-go v1.17.14
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/davidrjenni/reftools v0.0.0-20180914123528-654d0ba4f96d // indirect
 	github.com/fatih/gomodifytags v0.0.0-20180914191908-141225bf62b6 // indirect
