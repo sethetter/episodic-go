@@ -20,7 +20,8 @@ type DataBucket struct {
 
 // Data represents the JSON structure of the data held in S3
 type Data struct {
-	ShowIDs []int `json:"show_ids"`
+	ShowIDs        []int    `json:"show_ids"`
+	AllowedNumbers []string `json:"allowed_numbers"`
 }
 
 // NewDataBucket takes config and returns a new instance of the data bucket
@@ -30,7 +31,6 @@ func NewDataBucket(bucket, file string) (*DataBucket, error) {
 		file:   file,
 	}
 
-	// TODO: aws credentials?
 	sess, err := session.NewSession()
 	if err != nil {
 		return dataBucket, err
@@ -41,8 +41,8 @@ func NewDataBucket(bucket, file string) (*DataBucket, error) {
 	return dataBucket, nil
 }
 
-// ShowIDs returns the list of Show IDs from the data bucket
-func (db *DataBucket) ShowIDs() ([]int, error) {
+// Get pulls the data from S3 and returns it
+func (db *DataBucket) Get() (Data, error) {
 	downloader := s3manager.NewDownloader(db.sess)
 
 	getObjInput := &s3.GetObjectInput{
@@ -51,15 +51,15 @@ func (db *DataBucket) ShowIDs() ([]int, error) {
 	}
 
 	buf := aws.NewWriteAtBuffer([]byte{})
+	var data Data
 
 	if _, err := downloader.Download(buf, getObjInput); err != nil {
-		return []int{}, err
+		return data, err
 	}
 
-	var data Data
 	if err := json.Unmarshal(buf.Bytes(), &data); err != nil {
-		return []int{}, err
+		return data, err
 	}
 
-	return data.ShowIDs, nil
+	return data, nil
 }

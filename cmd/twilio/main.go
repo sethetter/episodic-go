@@ -38,21 +38,25 @@ type show struct {
 
 // HandleRequest handles the lambda invocation.
 func HandleRequest(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	db, err := episodic.NewDataBucket(os.Getenv("DATA_BUCKET"), "data.json")
+	if err != nil {
+		return events.APIGatewayProxyResponse{StatusCode: 500}, err
+	}
+
+	data, err := db.Get()
+	if err != nil {
+		return events.APIGatewayProxyResponse{StatusCode: 500}, err
+	}
+
+	if !numberAllowed(req, data.AllowedNumbers) {
+		return events.APIGatewayProxyResponse{StatusCode: 301}, nil
+	}
+
 	tmdb := episodic.NewTMDBClient(os.Getenv("TMDB_API_KEY"))
 
 	body := &Response{Shows: []show{}}
 
-	data, err := episodic.NewDataBucket(os.Getenv("DATA_BUCKET"), "data.json")
-	if err != nil {
-		return events.APIGatewayProxyResponse{StatusCode: 500}, err
-	}
-
-	showIDs, err := data.ShowIDs()
-	if err != nil {
-		return events.APIGatewayProxyResponse{StatusCode: 500}, err
-	}
-
-	for _, id := range showIDs {
+	for _, id := range data.ShowIDs {
 		s, err := tmdb.GetTV(id)
 		if err != nil {
 			return events.APIGatewayProxyResponse{StatusCode: 500}, err
@@ -75,6 +79,21 @@ func HandleRequest(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
 		},
 		Body: body.Render(),
 	}, nil
+}
+
+func numberAllowed(req events.APIGatewayProxyRequest, allowed []string) bool {
+	twilioReq, err := episodic.ParseTwilioRequest(req.Body)
+	if err != nil {
+		return false
+	}
+
+	found := false
+	for _, n := range allowed {
+		if n == twilioReq.From {
+			found = true
+		}
+	}
+	return found
 }
 
 func main() {
