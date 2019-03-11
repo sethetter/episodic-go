@@ -4,7 +4,7 @@ package episodic
 type TV struct {
 	ID          int      `json:"id"`
 	Name        string   `json:"name"`
-	Seasons     []Season `json:"seasons"`
+	Seasons     []Season `json:"seasons,omitempty"`
 	NextEpisode *Episode `json:"next_episode_to_air,omitempty"`
 }
 

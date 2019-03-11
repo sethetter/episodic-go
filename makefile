@@ -1,4 +1,4 @@
-build: twilio
+build: twilio addshow
 
 deps:
 	go mod download
@@ -6,6 +6,9 @@ deps:
 twilio:
 	go build -o ./bin/twilio ./cmd/twilio/main.go
 	cd bin && zip -o twilio.zip twilio
+
+addshow:
+	go build -o ./bin/addshow ./cmd/addshow/main.go
 
 deploy:
 	cd ops && terraform apply -var-file=secrets.tfvars

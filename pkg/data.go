@@ -1,6 +1,7 @@
 package episodic
 
 import (
+	"bytes"
 	"encoding/json"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -31,6 +32,7 @@ func NewDataBucket(bucket, file string) (*DataBucket, error) {
 		file:   file,
 	}
 
+	// Loads creds from env vars, I think
 	sess, err := session.NewSession()
 	if err != nil {
 		return dataBucket, err
@@ -59,6 +61,49 @@ func (db *DataBucket) Get() (Data, error) {
 
 	if err := json.Unmarshal(buf.Bytes(), &data); err != nil {
 		return data, err
+	}
+
+	return data, nil
+}
+
+func (db *DataBucket) save(data Data) (Data, error) {
+	uploader := s3manager.NewUploader(db.sess)
+
+	newJSON, err := json.Marshal(data)
+	if err != nil {
+		return data, err
+	}
+
+	uploadInput := &s3manager.UploadInput{
+		Bucket: aws.String(db.bucket),
+		Key:    aws.String(db.file),
+		Body:   bytes.NewReader(newJSON),
+	}
+
+	if _, err := uploader.Upload(uploadInput); err != nil {
+		return data, err
+	}
+
+	return data, nil
+}
+
+// AddShow saves a show ID to the data file
+func (db *DataBucket) AddShow(showID int) (Data, error) {
+	data, err := db.Get()
+	if err != nil {
+		return data, err
+	}
+
+	found := false
+	for _, id := range data.ShowIDs {
+		if id == showID {
+			found = true
+		}
+	}
+
+	if !found {
+		data.ShowIDs = append(data.ShowIDs, showID)
+		return db.save(data)
 	}
 
 	return data, nil
