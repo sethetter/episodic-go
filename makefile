@@ -4,7 +4,7 @@ deps:
 	go mod download
 
 twilio:
-	go build -o ./bin/twilio ./cmd/twilio/main.go
+	go build -o ./bin/twilio ./lambda/twilio/main.go
 	cd bin && zip -o twilio.zip twilio
 
 addshow:
