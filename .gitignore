@@ -3,3 +3,6 @@ data
 ops/.terraform
 ops/terraform.tfstate*
 ops/secrets.tfvars
+.web-build
+.cache
+node_modules

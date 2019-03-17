@@ -10,13 +10,6 @@ import (
 	episodic "github.com/sethetter/episodic/pkg"
 )
 
-var showIDs = []int{
-	34307, // Shameless
-	1399,  // Game of Thrones
-	63247, // Westworld
-	68898, // Crashing
-}
-
 // Response is the body of the response.
 type Response struct {
 	Shows []show `json:"shows"`

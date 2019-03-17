@@ -10,6 +10,13 @@ twilio:
 addshow:
 	go build -o ./bin/addshow ./cmd/addshow/main.go
 
+web:
+	npm run build
+
+# TODO
+# watch:
+#   modd && npm run watch && npm run serve
+
 deploy:
 	cd ops && terraform apply -var-file=secrets.tfvars
 

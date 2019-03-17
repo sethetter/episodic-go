@@ -7,6 +7,7 @@ type Episode struct {
 	ID      int    `json:"id"`
 	AirDate string `json:"air_date"`
 	Number  int    `json:"episode_number"`
+	Season  int    `json:"season_number"`
 }
 
 // DaysFromAir returns the number of days from the AirDate.

@@ -1,0 +1,28 @@
+{
+  "name": "episodic",
+  "version": "0.0.0",
+  "description": "",
+  "main": "web/index.html",
+  "scripts": {
+    "build": "parcel build web/index.html -d .web-build",
+    "watch": "parcel watch web/index.html -d .web-build",
+    "serve": "parcel serve web/index.html -d .web-build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sethetter/episodic.git"
+  },
+  "author": "Seth Etter <sethetter@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sethetter/episodic/issues"
+  },
+  "homepage": "https://github.com/sethetter/episodic#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.1"
+  },
+  "dependencies": {
+    "preact": "^8.4.2"
+  }
+}
