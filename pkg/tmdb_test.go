@@ -13,6 +13,7 @@ func TestGetTV(t *testing.T) {
 	id := 123
 	epID := 1234
 	epNumber := 9
+	showName := "Some Show"
 	airDate := "2019-02-09"
 	wantPath := fmt.Sprintf("/tv/%d", id)
 
@@ -24,13 +25,14 @@ func TestGetTV(t *testing.T) {
 		w.Header().Set("content-type", "application/json")
 		fmt.Fprintln(w, fmt.Sprintf(`{
 			"id": %d,
+			"name": "%s",
 			"seasons": [],
 			"next_episode_to_air": {
 				"id": %d,
 				"air_date": "%s",
 				"episode_number": %d
 			}
-		}`, id, epID, airDate, epNumber))
+		}`, id, showName, epID, airDate, epNumber))
 	}))
 	defer s.Close()
 
@@ -49,13 +51,16 @@ func TestGetTV(t *testing.T) {
 		t.Fatalf("Show ID does not match, expected %v, got %v", id, show.ID)
 	}
 	if show.NextEpisode.AirDate != airDate {
-		t.Fatalf("Next episode air date does not match, expected %v, got %v", id, show.ID)
+		t.Fatalf("Next episode air date does not match, expected %v, got %v", airDate, show.NextEpisode.AirDate)
 	}
 	if show.NextEpisode.Number != epNumber {
-		t.Fatalf("Next episode number does not match, expected %v, got %v", id, show.ID)
+		t.Fatalf("Next episode number does not match, expected %v, got %v", epNumber, show.NextEpisode.Number)
 	}
 	if show.NextEpisode.ID != epID {
-		t.Fatalf("Next episode ID does not match, expected %v, got %v", id, show.ID)
+		t.Fatalf("Next episode ID does not match, expected %v, got %v", epID, show.NextEpisode.ID)
+	}
+	if show.NextEpisode.ShowName != showName {
+		t.Fatalf("Next episode show name does not match, expected %v, got %v", showName, show.NextEpisode.ShowName)
 	}
 }
 

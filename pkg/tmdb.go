@@ -48,6 +48,10 @@ func (t *TMDB) GetTV(showID int) (*TV, error) {
 		return &TV{}, err
 	}
 
+	if show.HasNextEpisode() {
+		show.NextEpisode.ShowName = show.Name
+	}
+
 	return &show, nil
 }
 

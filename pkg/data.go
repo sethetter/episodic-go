@@ -21,8 +21,9 @@ type DataBucket struct {
 
 // Data represents the JSON structure of the data held in S3
 type Data struct {
-	ShowIDs        []int    `json:"show_ids"`
-	AllowedNumbers []string `json:"allowed_numbers"`
+	ShowIDs        []int     `json:"show_ids"`
+	AllowedNumbers []string  `json:"allowed_numbers"`
+	WatchList      []Episode `json:"watch_list"`
 }
 
 // NewDataBucket takes config and returns a new instance of the data bucket
@@ -103,6 +104,29 @@ func (db *DataBucket) AddShow(showID int) (Data, error) {
 
 	if !found {
 		data.ShowIDs = append(data.ShowIDs, showID)
+		return db.save(data)
+	}
+
+	return data, nil
+}
+
+// TODO: Generalize the find no dup and save functionality, with a comparator func
+// AddEpisode adds episode data to the data bucket,
+func (db *DataBucket) AddEpisode(ep Episode) (Data, error) {
+	data, err := db.Get()
+	if err != nil {
+		return data, err
+	}
+
+	found := false
+	for _, epp := range data.WatchList {
+		if epp.ID == ep.ID {
+			found = true
+		}
+	}
+
+	if !found {
+		data.WatchList = append(data.WatchList, ep)
 		return db.save(data)
 	}
 
