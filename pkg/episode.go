@@ -1,6 +1,9 @@
 package episodic
 
-import "time"
+import (
+	"strings"
+	"time"
+)
 
 // Episode represents a TV Episode object from TMDB.
 type Episode struct {
@@ -20,3 +23,10 @@ func (e *Episode) DaysFromAir(now time.Time) (int, error) {
 
 	return (t.YearDay() - now.YearDay()), nil
 }
+
+// ByAirDate implements sort.Interface for Episode.
+type ByAirDate []Episode
+
+func (b ByAirDate) Len() int           { return len(b) }
+func (b ByAirDate) Swap(i, j int)      { b[i], b[j] = b[j], b[i] }
+func (b ByAirDate) Less(i, j int) bool { return strings.Compare(b[i].AirDate, b[j].AirDate) < 0 }

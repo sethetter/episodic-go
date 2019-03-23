@@ -5,6 +5,7 @@ package main
 import (
 	"encoding/json"
 	"os"
+	"sort"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -29,6 +30,8 @@ func HandleRequest(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
 	if err != nil {
 		return events.APIGatewayProxyResponse{StatusCode: 500}, err
 	}
+
+	sort.Sort(episodic.ByAirDate(data.WatchList))
 
 	jsonStr, err := json.Marshal(&Response{WatchList: data.WatchList})
 	if err != nil {
