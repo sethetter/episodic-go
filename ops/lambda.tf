@@ -65,7 +65,7 @@ resource "aws_lambda_permission" "apigw_lambda_twilio" {
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.twilio.arn}"
   principal     = "apigateway.amazonaws.com"
-  source_arn = "${aws_api_gateway_deployment.test.execution_arn}/*/*"
+  source_arn = "${aws_api_gateway_deployment.prod.execution_arn}/*/*"
 }
 
 resource "aws_cloudwatch_log_group" "twilio_lambda_logs" {
@@ -153,7 +153,7 @@ resource "aws_lambda_permission" "apigw_lambda_watchlist" {
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.watchlist.arn}"
   principal     = "apigateway.amazonaws.com"
-  source_arn = "${aws_api_gateway_deployment.test.execution_arn}/*/*"
+  source_arn = "${aws_api_gateway_deployment.prod.execution_arn}/*/*"
 }
 
 resource "aws_cloudwatch_log_group" "watchlist_lambda_logs" {

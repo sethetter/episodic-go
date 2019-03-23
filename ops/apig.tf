@@ -11,6 +11,13 @@ resource "aws_api_gateway_domain_name" "episodic_domain" {
   domain_name = "episodic.n0pe.lol"
 }
 
+resource "aws_api_gateway_base_path_mapping" "episodic_prod" {
+  api_id = "${aws_api_gateway_rest_api.episodic_api.id}"
+  stage_name = "${aws_api_gateway_deployment.prod.stage_name}"
+  domain_name = "${aws_api_gateway_domain_name.episodic_domain.domain_name}"
+  base_path = "api"
+}
+
 resource "aws_route53_record" "episodic_domain" {
   name = "${aws_api_gateway_domain_name.episodic_domain.domain_name}"
   type = "A"
@@ -26,7 +33,7 @@ resource "aws_route53_record" "episodic_domain" {
 # deployment
 # ----------------------------------------
 
-resource "aws_api_gateway_deployment" "test" {
+resource "aws_api_gateway_deployment" "prod" {
   depends_on = [
     "aws_api_gateway_resource.twilio",
     "aws_api_gateway_resource.twilio_proxy",
@@ -36,7 +43,7 @@ resource "aws_api_gateway_deployment" "test" {
     "aws_api_gateway_integration.watchlist_proxy_integration"
   ]
   rest_api_id = "${aws_api_gateway_rest_api.episodic_api.id}"
-  stage_name = "test"
+  stage_name = "prod"
   variables {
     deployed_at = "${var.deployed_at}"
   }

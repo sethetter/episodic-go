@@ -8,8 +8,8 @@ provider "twilio" {
   auth_token = "${var.twilio_auth_token}"
 }
 
-output "api_url" {
-  value = "${aws_api_gateway_deployment.test.invoke_url}"
+output "apig_url" {
+  value = "${aws_api_gateway_deployment.prod.invoke_url}"
 }
 
 output "web_bucket" {
@@ -18,4 +18,8 @@ output "web_bucket" {
 
 output "web_url" {
   value = "${aws_s3_bucket.web.website_endpoint}"
+}
+
+output "twilio_number" {
+  value = "${twilio_phonenumber.prod.phone_number}"
 }
