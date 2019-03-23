@@ -108,6 +108,26 @@ resource "aws_iam_role_policy_attachment" "loadeps_lambda_logs_role_attachment" 
   policy_arn = "${aws_iam_policy.lambda_logging_policy.arn}"
 }
 
+resource "aws_cloudwatch_event_rule" "daily" {
+  name = "daily"
+  # Runs at 10 AM UTC every day
+  schedule_expression = "cron(0 10 * * ? *)"
+}
+
+resource "aws_cloudwatch_event_target" "loadeps_daily" {
+  rule = "${aws_cloudwatch_event_rule.daily.name}"
+  target_id = "${aws_lambda_function.loadeps.function_name}"
+  arn = "${aws_lambda_function.loadeps.arn}"
+}
+
+resource "aws_lambda_permission" "loadeps_cloudwatch" {
+  statement_id = "AllowExecutionFromCloudWatch"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.loadeps.function_name}"
+  principal = "events.amazonaws.com"
+  source_arn = "${aws_cloudwatch_event_rule.daily.arn}"
+}
+
 # Lambda: watchlist
 # ----------------------------------------
 
