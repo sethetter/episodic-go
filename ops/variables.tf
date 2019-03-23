@@ -13,3 +13,5 @@ variable "twilio_auth_token" {}
 variable "twilio_phone_number" {}
 
 variable "deployed_at" {}
+
+variable "base_domain" {}
