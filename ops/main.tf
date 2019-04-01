@@ -13,13 +13,17 @@ output "apig_url" {
 }
 
 output "web_bucket" {
-  value = "${aws_s3_bucket.web.bucket}"
+  value = "${aws_s3_bucket.episodic_web.bucket}"
 }
 
 output "web_url" {
-  value = "${aws_s3_bucket.web.website_endpoint}"
+  value = "${aws_s3_bucket.episodic_web.website_endpoint}"
 }
 
 output "twilio_number" {
   value = "${twilio_phonenumber.prod.phone_number}"
+}
+
+output "web_cfdist" {
+  value = "${aws_cloudfront_distribution.episodic_web.id}"
 }

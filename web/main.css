@@ -1,0 +1,25 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+ul.episodes {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #ccc;
+}
+
+li.episode-li {
+  width: 100%;
+  margin: 0;
+  padding: 15px 10px;
+  list-style: none;
+  border-bottom: 1px solid #ccc;
+}
+
+li.episode-li button {
+  padding: 0;
+  margin-right: 5px;
+}

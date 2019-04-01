@@ -1,6 +1,8 @@
 # Common Lambda Resources
 # ----------------------------------------
 
+# TODO: Abstract lambda stuff into a module
+
 resource "aws_iam_role" "lambda_role" {
   name = "lambda_role"
   assume_role_policy = <<EOF
@@ -162,6 +164,44 @@ resource "aws_cloudwatch_log_group" "watchlist_lambda_logs" {
 }
 
 resource "aws_iam_role_policy_attachment" "watchlist_lambda_logs_role_attachment" {
+  role = "${aws_iam_role.lambda_role.name}"
+  policy_arn = "${aws_iam_policy.lambda_logging_policy.arn}"
+}
+
+# Lambda: rmepisode
+# ----------------------------------------
+
+resource "aws_lambda_function" "rmepisode" {
+  function_name = "episodic_rmepisode"
+  runtime = "go1.x"
+  handler = "rmepisode"
+  role = "${aws_iam_role.lambda_role.arn}"
+
+  filename = "../bin/rmepisode.zip"
+  source_code_hash = "${base64sha256(file("../bin/rmepisode.zip"))}"
+
+  environment {
+    variables = {
+      TMDB_API_KEY = "${var.tmdb_api_key}"
+      DATA_BUCKET = "${aws_s3_bucket.data.bucket}"
+    }
+  }
+}
+
+resource "aws_lambda_permission" "apigw_lambda_rmepisode" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.rmepisode.arn}"
+  principal     = "apigateway.amazonaws.com"
+  source_arn = "${aws_api_gateway_deployment.prod.execution_arn}/*/*"
+}
+
+resource "aws_cloudwatch_log_group" "rmepisode_lambda_logs" {
+  name = "/aws/lambda/${aws_lambda_function.rmepisode.function_name}"
+  retention_in_days = 7
+}
+
+resource "aws_iam_role_policy_attachment" "rmepisode_lambda_logs_role_attachment" {
   role = "${aws_iam_role.lambda_role.name}"
   policy_arn = "${aws_iam_policy.lambda_logging_policy.arn}"
 }

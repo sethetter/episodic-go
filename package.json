@@ -4,7 +4,7 @@
   "description": "",
   "main": "web/index.html",
   "scripts": {
-    "build": "parcel build web/index.html -d .web-build",
+    "build": "rm -rf .web-build/* && parcel build web/index.html -d .web-build",
     "watch": "parcel watch web/index.html -d .web-build",
     "serve": "parcel serve web/index.html -d .web-build",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/sethetter/episodic#readme",
   "devDependencies": {
-    "parcel-bundler": "^1.12.1"
+    "parcel-bundler": "^1.12.1",
+    "typescript": "^3.4.1"
   },
   "dependencies": {
     "preact": "^8.4.2"

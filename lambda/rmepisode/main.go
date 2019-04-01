@@ -1,11 +1,13 @@
 package main
 
-// watchlist is used to serve data.WatchList to the frontend
+// rmepisode is used to remove an episode from the watchlist
 
 import (
 	"encoding/json"
+	"errors"
 	"os"
 	"sort"
+	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -21,6 +23,8 @@ type Response struct {
 
 // HandleRequest handles the lambda invocation.
 func HandleRequest(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	// TODO: check for cookie
+
 	db, err := episodic.NewDataBucket(os.Getenv("DATA_BUCKET"), "data.json")
 	if err != nil {
 		return events.APIGatewayProxyResponse{StatusCode: 500}, err
@@ -28,6 +32,20 @@ func HandleRequest(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
 
 	data, err := db.Get()
 	if err != nil {
+		return events.APIGatewayProxyResponse{StatusCode: 500}, err
+	}
+
+	idStr, ok := req.QueryStringParameters["id"]
+	if !ok {
+		return events.APIGatewayProxyResponse{StatusCode: 500}, errors.New("no id param found in query string")
+	}
+
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		return events.APIGatewayProxyResponse{StatusCode: 500}, err
+	}
+
+	if data, err = db.RemoveEpisode(id); err != nil {
 		return events.APIGatewayProxyResponse{StatusCode: 500}, err
 	}
 

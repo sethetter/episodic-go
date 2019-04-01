@@ -132,3 +132,25 @@ func (db *DataBucket) AddEpisode(ep Episode) (Data, error) {
 
 	return data, nil
 }
+
+// RemoveEpisode removes an episode from the watchlist, by ID.
+func (db *DataBucket) RemoveEpisode(id int) (Data, error) {
+	data, err := db.Get()
+	if err != nil {
+		return data, err
+	}
+
+	idx := -1
+	for i, ep := range data.WatchList {
+		if ep.ID == id {
+			idx = i
+		}
+	}
+
+	if idx != -1 {
+		data.WatchList = append(data.WatchList[:idx], data.WatchList[idx+1:]...)
+		return db.save(data)
+	}
+
+	return data, nil
+}
