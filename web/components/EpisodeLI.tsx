@@ -12,7 +12,7 @@ const EpisodeLI = ({ episode, removeClickHandler }: EpisodeLIProps) => {
   )
 
   const episodeWatchedLink = (ep: IEpisode) => (
-    <button onClick={removeClickHandler(ep.id)}>X</button>
+    <button onClick={removeClickHandler}>X</button>
   )
 
   return (

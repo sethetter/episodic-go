@@ -18,7 +18,9 @@ export default class App extends Component<AppProps, AppProps> {
     return (evt: Event) => {
       evt.preventDefault()
       if (window.confirm('Are you shoooooore?')) {
-        removeEpisode(id).then(episodes => this.setState({ episodes }))
+        removeEpisode(id).then(newEpisodes => {
+          this.setState({ episodes: newEpisodes })
+        })
       }
     }
   }
@@ -32,7 +34,7 @@ export default class App extends Component<AppProps, AppProps> {
       <div>
         <h1>Episodic</h1>
         <ul className="episodes">
-          {sortedEpisodes.map(ep => <EpisodeLI episode={ep} removeClickHandler={this.markEpisodeAsWatched} />)}
+          {sortedEpisodes.map(ep => <EpisodeLI episode={ep} removeClickHandler={this.markEpisodeAsWatched(ep.id)} />)}
         </ul>
       </div>
     )
