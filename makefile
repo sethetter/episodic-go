@@ -42,3 +42,9 @@ deploy-web:
 
 test:
 	go test ./pkg
+
+data-pull:
+	aws s3 cp s3://episodic-data/data.json data.json
+
+data-push:
+	aws s3 cp data.json s3://episodic-data/data.json
