@@ -6,23 +6,23 @@ build: twilio addshow loadeps watchlist rmepisode web
 deps:
 	go mod download
 
-twilio:
-	go build -o ./bin/twilio ./lambda/twilio/main.go
-	cd bin && zip -o twilio.zip twilio
-
 addshow:
 	go build -o ./bin/addshow ./cmd/addshow/main.go
 
+twilio:
+	GOOS=linux go build -o ./bin/twilio ./lambda/twilio/main.go
+	cd bin && zip -o twilio.zip twilio
+
 loadeps:
-	go build -o ./bin/loadeps ./lambda/loadeps/main.go
+	GOOS=linux go build -o ./bin/loadeps ./lambda/loadeps/main.go
 	cd bin && zip -o loadeps.zip loadeps
 
 watchlist:
-	go build -o ./bin/watchlist ./lambda/watchlist/main.go
+	GOOS=linux go build -o ./bin/watchlist ./lambda/watchlist/main.go
 	cd bin && zip -o watchlist.zip watchlist
 
 rmepisode:
-	go build -o ./bin/rmepisode ./lambda/rmepisode/main.go
+	GOOS=linux go build -o ./bin/rmepisode ./lambda/rmepisode/main.go
 	cd bin && zip -o rmepisode.zip rmepisode
 
 web:
