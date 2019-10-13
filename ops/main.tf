@@ -1,11 +1,6 @@
 provider "aws" {
-  profile = "default"
+  profile = "${var.aws_profile}"
   region = "${var.aws_region}"
-}
-
-provider "twilio" {
-  account_sid = "${var.twilio_account_sid}"
-  auth_token = "${var.twilio_auth_token}"
 }
 
 output "apig_url" {
@@ -21,7 +16,7 @@ output "web_url" {
 }
 
 output "twilio_number" {
-  value = "${twilio_phonenumber.prod.phone_number}"
+  value = "${var.twilio_phone_number}"
 }
 
 output "web_cfdist" {

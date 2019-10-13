@@ -46,7 +46,7 @@ resource "aws_api_gateway_deployment" "prod" {
   ]
   rest_api_id = "${aws_api_gateway_rest_api.episodic_api.id}"
   stage_name = "prod"
-  variables {
+  variables = {
     deployed_at = "${var.deployed_at}"
   }
 }

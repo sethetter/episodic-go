@@ -23,7 +23,7 @@ EOF
 }
 
 resource "aws_iam_policy" "lambda_logging_policy" {
-  name = "lamba_logging_policy"
+  name = "lamdba_logging_policy"
   path = "/"
   policy = <<EOF
 {
@@ -52,7 +52,7 @@ resource "aws_lambda_function" "twilio" {
   role = "${aws_iam_role.lambda_role.arn}"
 
   filename = "../bin/twilio.zip"
-  source_code_hash = "${base64sha256(file("../bin/twilio.zip"))}"
+  source_code_hash = "${filebase64sha256("../bin/twilio.zip")}"
 
   environment {
     variables = {
@@ -90,7 +90,7 @@ resource "aws_lambda_function" "loadeps" {
   role = "${aws_iam_role.lambda_role.arn}"
 
   filename = "../bin/loadeps.zip"
-  source_code_hash = "${base64sha256(file("../bin/loadeps.zip"))}"
+  source_code_hash = "${filebase64sha256("../bin/loadeps.zip")}"
 
   environment {
     variables = {
@@ -140,7 +140,7 @@ resource "aws_lambda_function" "watchlist" {
   role = "${aws_iam_role.lambda_role.arn}"
 
   filename = "../bin/watchlist.zip"
-  source_code_hash = "${base64sha256(file("../bin/watchlist.zip"))}"
+  source_code_hash = "${filebase64sha256("../bin/watchlist.zip")}"
 
   environment {
     variables = {
@@ -178,7 +178,7 @@ resource "aws_lambda_function" "rmepisode" {
   role = "${aws_iam_role.lambda_role.arn}"
 
   filename = "../bin/rmepisode.zip"
-  source_code_hash = "${base64sha256(file("../bin/rmepisode.zip"))}"
+  source_code_hash = "${filebase64sha256("../bin/rmepisode.zip")}"
 
   environment {
     variables = {
