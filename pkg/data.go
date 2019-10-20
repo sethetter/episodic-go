@@ -111,6 +111,7 @@ func (db *DataBucket) AddShow(showID int) (Data, error) {
 }
 
 // TODO: Generalize the find no dup and save functionality, with a comparator func
+
 // AddEpisode adds episode data to the data bucket,
 func (db *DataBucket) AddEpisode(ep Episode) (Data, error) {
 	data, err := db.Get()
